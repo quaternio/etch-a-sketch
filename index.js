@@ -1,7 +1,10 @@
 const container = document.querySelector(".container");
 const gridButton = document.querySelector(".grid-button");
+const shadeButton = document.querySelector(".shade-button");
 const clearButton = document.querySelector(".clear-button");
+
 let gridDim = 16;
+let shadeMode = false;
 
 const gridCreator = (width, height) => {
   container.innerHTML = "";
@@ -28,10 +31,21 @@ const gridCreator = (width, height) => {
 
       pixel.style.borderColor = "black";
       pixel.style.flex = "auto";
+      pixel.dataset.depth = 0;
 
       pixel.addEventListener('mouseenter', (e) => {
-        pixel.style.backgroundColor = "grey"; 
-        console.log(`Entered pixel ${j}, ${i}`);
+        if (shadeMode && pixel.dataset.depth < 10) {
+          let pixelDepth = Number(pixel.dataset.depth) + 1;
+          let intensity = 255 - 25*pixelDepth;
+
+          pixel.dataset.depth = pixelDepth;
+
+          console.log(pixelDepth);
+          
+          pixel.style.backgroundColor = `rgb(${intensity},${intensity},${intensity})`; 
+        } else if (!shadeMode) {
+          pixel.style.backgroundColor = "grey";
+        }
       });
 
       subcontainer.appendChild(pixel);
@@ -49,6 +63,19 @@ gridButton.onclick = () => {
   } else {
     alert("Please enter a grid size between 1 and 100"); 
   }
+}
+
+// Set shade button callback
+shadeButton.onclick = () => {
+  shadeMode = !shadeMode;
+  if (shadeMode) {
+    shadeButton.textContent = "Classic Mode";
+  } else {
+    shadeButton.textContent = "Shade Mode";
+  }
+
+  // Recreate the grid
+  gridCreator(gridDim, gridDim);
 }
 
 // Set clear button callback
