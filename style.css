@@ -1,4 +1,6 @@
 .container {
+  width: 90vw;
+  height: 90vw;
   display: flex;
   flex-direction: row;
 }

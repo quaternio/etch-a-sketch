@@ -9,6 +9,7 @@ const gridCreator = (width, height) => {
     subcontainer.classList.add(`col-${i}`);
     subcontainer.style.display = "flex";
     subcontainer.style.flexDirection = "column";
+    subcontainer.style.flex = "auto";
     container.appendChild(subcontainer);
 
     // Create the pixels
@@ -18,10 +19,15 @@ const gridCreator = (width, height) => {
       pixel.classList.add(`row-${j}`);
       pixel.style.borderStyle = "solid";
       pixel.style.borderColor = "black";
-      pixel.style.flex = "1";
-      subcontainer.appendChild(pixel); 
+      pixel.style.flex = "auto";
+
+      pixel.addEventListener('mouseover', (e) => {
+        pixel.style.backgroundColor = "grey"; 
+      });
+
+      subcontainer.appendChild(pixel);
     }
   }  
 }
 
-gridCreator(16,16);
+gridCreator(32,32);
