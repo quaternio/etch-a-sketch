@@ -1,6 +1,11 @@
 .container {
-  width: 90vw;
-  height: 90vw;
+  width: 80vh;
+  height: 80vh;
   display: flex;
   flex-direction: row;
+}
+
+button {
+  margin-bottom: 10px;
+  margin-right: 10px;
 }
