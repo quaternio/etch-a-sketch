@@ -1,10 +1,12 @@
 const container = document.querySelector(".container");
 const gridButton = document.querySelector(".grid-button");
 const shadeButton = document.querySelector(".shade-button");
+const toggleGridButton = document.querySelector(".grid-toggle-button");
 const clearButton = document.querySelector(".clear-button");
 
 let gridDim = 16;
 let shadeMode = false;
+let gridOn = true;
 
 const gridCreator = (width, height) => {
   container.innerHTML = "";
@@ -24,8 +26,14 @@ const gridCreator = (width, height) => {
       pixel.classList.add(`col-${i}`);
       pixel.classList.add(`row-${j}`);
 
-      pixel.style.borderLeftStyle = "solid";
-      pixel.style.borderTopStyle = "solid";
+      if (gridOn) {
+        pixel.style.borderLeftStyle = "solid";
+        pixel.style.borderTopStyle = "solid";
+      } else {
+        if (i === 0) pixel.style.borderLeftStyle = "solid";
+        if (j === 0) pixel.style.borderTopStyle = "solid";
+      }
+
       if (i === width - 1) pixel.style.borderRightStyle = "solid";
       if (j === height - 1) pixel.style.borderBottomStyle = "solid";
 
@@ -78,6 +86,28 @@ shadeButton.onclick = () => {
   gridCreator(gridDim, gridDim);
 }
 
+toggleGridButton.onclick = () => {
+  gridOn = !gridOn;
+  // gridCreator(gridDim, gridDim);
+
+  // Get rid of some edges
+  for (let i=0; i<gridDim; i++) {
+    for (let j=0; j<gridDim; j++) {
+      let pixel = document.querySelectorAll(`.col-${i}.row-${j}`)[0];
+
+      if (gridOn) {
+        pixel.style.borderLeftStyle = "solid";
+        pixel.style.borderTopStyle = "solid";
+      } else {
+        pixel.style.borderLeftStyle = "none";
+        pixel.style.borderTopStyle = "none";
+        if (i === 0) pixel.style.borderLeftStyle = "solid";
+        if (j === 0) pixel.style.borderTopStyle = "solid";
+      }
+    }
+  }
+}
+
 // Set clear button callback
 clearButton.onclick = () => {
   gridCreator(gridDim, gridDim);
@@ -85,3 +115,4 @@ clearButton.onclick = () => {
 
 // Generate grid
 gridCreator(gridDim, gridDim);
+
